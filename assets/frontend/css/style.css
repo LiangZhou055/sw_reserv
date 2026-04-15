@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Stick+No+Bills:wght@500;600;700;800&display=swap");
+html,
+body {
+  font-family: "Quicksand", sans-serif;
+  /* font-family: 'Stick No Bills', sans-serif; */
+}
+.btn--info {
+  color: #fff;
+  background-color: #03115b;
+  border-color: #03115b;
+}
+.or {
+  position: relative;
+}
+.or:after {
+  position: absolute;
+  content: "";
+  height: 1px;
+  top: 48%;
+  right: 55%;
+  width: 120px;
+  background-color: rgb(187, 171, 171);
+}
+.or:before {
+  position: absolute;
+  content: "";
+  height: 1px;
+  top: 48%;
+  left: 55%;
+  width: 120px;
+  background-color: rgb(187, 171, 171);
+}
+.login-page-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+.login-left-section {
+  height: 100vh;
+  position: relative;
+}
+.login-right-section {
+  height: 100vh;
+  color: white;
+  position: relative;
+}
+.bg-purple {
+  background: #03115b;
+}
+.responsive-padding {
+  padding: 10rem;
+}
+.users {
+  display: flex;
+  align-items: center;
+}
+.user {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: -20px;
+  border: 7px solid #6f42c1;
+}
+.z-3 {
+  z-index: 5;
+}
+.google-img {
+  width: 20px;
+}
+.form-container {
+  width: 390px;
+}
+.only-big-screen {
+  display: block;
+}
+.only-small-screen {
+  display: none;
+}
+input:focus {
+  outline: none;
+}
+.site--title{
+  color: #6f42c1;
+}
+.google--login{
+  background-color: #fbbc05;
+}

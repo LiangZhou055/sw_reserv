@@ -1,0 +1,127 @@
+@media (min-width: 320px) and (max-width: 424px) {
+    .responsive-shadow{
+  box-shadow: none;
+}
+  .only-big-screen {
+    display: none;
+  }
+  .only-small-screen {
+    display: block;
+  }
+  .login-left-section {
+    height: 100vh;
+    box-shadow: none;
+  }
+  .login-right-section {
+    display: none !important;
+  }
+  .login-page-container {
+    padding: 0 1.5rem;
+  }
+  .log-text h1 {
+    font-size: 3rem;
+    line-height: 45px;
+    margin: 24px 0;
+    white-space: nowrap;
+  }
+}
+@media (min-width: 425px) and (max-width: 575px) {
+    .responsive-shadow{
+  box-shadow: none;
+}
+  .only-big-screen {
+    display: none;
+  }
+  .only-small-screen {
+    display: block;
+  }
+  .login-left-section {
+    height: 100vh;
+    box-shadow: none;
+  }
+  .login-page-container {
+    padding: 0 2rem;
+  }
+  .login-right-section {
+    display: none !important;
+  }
+}
+@media (min-width: 576px) and (max-width: 767px) {
+    .responsive-shadow{
+  box-shadow: none;
+}
+  .only-big-screen {
+    display: none;
+  }
+  .only-small-screen {
+    display: block;
+  }
+  .login-left-section {
+    height: 100vh;
+    box-shadow: none;
+  }
+  .login-page-container {
+    padding: 0 2rem;
+  }
+  .login-right-section {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+    .responsive-shadow{
+  box-shadow: none;
+}
+  .only-big-screen {
+    display: none;
+  }
+  .only-small-screen {
+    display: block;
+  }
+  .login-left-section {
+    height: 100vh;
+    box-shadow: none;
+  }
+  .login-right-section {
+    display: none !important;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .login-page-container {
+    padding: 0px 2rem;
+  }
+  .login-left-section {
+    height: 96vh;
+  }
+  .login-right-section {
+    height: 96vh;
+  }
+  .responsive-padding{
+    padding: 3rem;
+  }
+  .user {
+    height: 60px;
+    width: 60px;
+  }
+  .log-img-abs {
+    position: absolute;
+    height: 149px;
+    width: 150px;
+    right: 7%;
+    top: 5%;
+    animation: up-down 5s linear infinite;
+  }
+  .log-img-abs2 {
+    position: absolute;
+    height: 85px;
+    width: 80px;
+    right: 62%;
+    top: 33%;
+    animation: up-down2 7s linear infinite;
+  }
+  .log-text h1 {
+    font-size: 5rem;
+    line-height: 65px;
+    margin: 24px 0;
+    white-space: nowrap;
+  }
+}

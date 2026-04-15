@@ -1,0 +1,55 @@
+.header_sub_content {
+    background: #000;
+}
+
+.side_content {    
+    background: #000;
+}
+
+table.table--light thead th {
+    background-color: #db0606;
+    font-size: 1.2rem;
+}
+
+td, th {    
+    font-size: 1.2rem;
+}
+
+.dashboard_container {
+    height: auto;
+    overflow: auto;
+}
+
+.responsive-table {
+    height: 65vh;
+    overflow: scroll;
+}
+
+.rounded_box .responsive-table {
+    height: 70vh;
+}
+
+.btn--primary, .btn--danger, .btn--info {
+    font-size:1.2rem;
+}
+
+.side_bar_menu_list ul> li> a {
+    font-size: 1.2rem;
+}
+
+.modal_button2, .card-header,.card-body, .form-control, h6{
+    font-size:1.5rem;
+}
+
+.btn--info {
+    background: rgb(169 9 9) !important;
+}
+
+.dashboard_container {
+    padding: 1rem;
+    background: #fff;
+}
+
+.bg--lite--violet {
+    background-color: #e01414e3 !important;
+}
