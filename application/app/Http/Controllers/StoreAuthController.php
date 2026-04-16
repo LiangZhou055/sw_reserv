@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use App\Services\StoreContext;
 use App\Services\ReservationLimitService;
@@ -55,32 +54,11 @@ class StoreAuthController extends Controller
 
         $storeCodeNormalized = strtolower(trim($storeCode));
 
-        // Debug log for login flow
-        $centralConn = DB::connection('central');
-        Log::info('Store login attempt', [
-            'store_code' => $storeCodeNormalized,
-            'email' => $credentials['email'],
-            'central_db' => $centralConn->getDatabaseName(),
-        ]);
-
         $user = StoreUser::where('store_code', $storeCodeNormalized)
             ->where('email', $credentials['email'])
             ->first();
 
-        Log::info('Store login user lookup result', [
-            'found' => $user !== null,
-            'user_id' => $user->id ?? null,
-            'user_store_code' => $user->store_code ?? null,
-            'user_email' => $user->email ?? null,
-            'is_active' => $user->is_active ?? null,
-        ]);
-
         $passwordOk = $user ? Hash::check($credentials['password'], $user->password) : false;
-        Log::info('Store login password check', [
-            'store_code' => $storeCodeNormalized,
-            'email' => $credentials['email'],
-            'password_ok' => $passwordOk,
-        ]);
 
         if ($user && $user->is_active && $passwordOk) {
             Auth::guard('store')->login($user, $remember);
