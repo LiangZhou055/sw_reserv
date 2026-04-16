@@ -42,7 +42,11 @@ class APIController extends Controller
                 $new_device = true;
             }
 
-            return view('register', ['sn' => $sn, 'new_device' => $new_device]);
+            return view('register', [
+                'sn' => $sn,
+                'new_device' => $new_device,
+                'storeCode' => $storeCode ?? config('stores.default_store'),
+            ]);
         }        
     }
 
@@ -64,9 +68,11 @@ class APIController extends Controller
     {
         $data = $request->validate([
             'sn' => ['required', 'string', 'max:50'],
+            'store' => ['nullable', 'string', 'max:50'],
         ]); 
 
         $sn = $request->sn;
+        $storeCode = strtolower(trim((string) ($request->input('store') ?: $request->attributes->get('store_code', ''))));
         
         $device = Device::Where('sn', $sn)->first();
 
@@ -76,6 +82,13 @@ class APIController extends Controller
         }
         else{
             if ($device->status == 1) {                
+                if ($storeCode !== '') {
+                    return redirect()->route('dynamic.api.store', [
+                        'storeCode' => $storeCode,
+                        'apiKey' => $sn,
+                    ]);
+                }
+
                 return redirect()->route('dynamic.api', ['sn' => $sn]);
             }
             else{

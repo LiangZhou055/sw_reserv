@@ -1,0 +1,3 @@
+ALTER TABLE `events`
+ADD COLUMN `source` TINYINT(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '1=store,2=customer'
+AFTER `sms_status`;
