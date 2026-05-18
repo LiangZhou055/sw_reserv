@@ -19,6 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/v1/stores', [CustomerReservationApiController::class, 'stores']);
+
 Route::middleware(['store.api_key'])->group(function () {
     Route::get('/v1/stores/{storeCode}/availability', [CustomerReservationApiController::class, 'availability']);
     Route::get('/v1/stores/{storeCode}/reservations', [CustomerReservationApiController::class, 'index']);

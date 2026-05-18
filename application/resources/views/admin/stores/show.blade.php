@@ -81,6 +81,57 @@
 
 <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
   @php
+    $hasDataApiKey = (bool) ($hasDataApiKey ?? false);
+    $dataApiKey = data_get($store, 'data_api_key');
+  @endphp
+  <h4 class="text-sm font-bold text-slate-900">External Data API Key (Plain Text)</h4>
+  <p class="mt-1 text-xs text-slate-500">
+    This key is used only for <code>/data/{storeCode}/{key}</code>. It is independent from the main API key above.
+  </p>
+  @if(!$hasDataApiKey)
+    <div class="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+      Central `stores` table is missing `data_api_key`. Please run the DB update SQL.
+    </div>
+  @endif
+  <div class="mt-3 grid gap-3 sm:grid-cols-2 text-sm">
+    <div class="rounded-xl bg-slate-50 p-3">
+      <span class="text-slate-500">Configured</span>
+      <p class="font-semibold text-slate-800">{{ empty($dataApiKey) ? 'No' : 'Yes' }}</p>
+    </div>
+    <div class="rounded-xl bg-slate-50 p-3">
+      <span class="text-slate-500">Current Key (Plain)</span>
+      <p class="font-semibold text-slate-800 break-all">{{ $dataApiKey ?: '-' }}</p>
+    </div>
+  </div>
+  <form method="POST" action="{{ route('admin.stores.data_api_key.update', ['code' => $store->code, 'start_date' => $startDate, 'end_date' => $endDate]) }}" class="mt-4 grid gap-3 lg:grid-cols-12 lg:items-end">
+    @csrf
+    <div class="lg:col-span-8">
+      <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">Data API Key (plain text)</label>
+      <input type="text" name="data_api_key" class="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30" placeholder="Set external data API key">
+    </div>
+    <div class="lg:col-span-2">
+      <button type="submit"
+              data-swift-confirm="1"
+              data-confirm-title="Save Data API Key"
+              data-confirm-text="Confirm save this plain text key for external data API?"
+              class="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition">
+        Save Key
+      </button>
+    </div>
+    <div class="lg:col-span-2">
+      <button type="submit" name="action" value="generate"
+              data-swift-confirm="1"
+              data-confirm-title="Generate Data API Key"
+              data-confirm-text="Confirm generate a new random data API key? This will replace current one."
+              class="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition">
+        Generate Random
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="mt-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+  @php
     $hasSmsTplWelcome = (bool) ($hasSmsTplWelcome ?? false);
     $hasSmsTplNotice = (bool) ($hasSmsTplNotice ?? false);
     $hasSmsTplConfirm = (bool) ($hasSmsTplConfirm ?? false);

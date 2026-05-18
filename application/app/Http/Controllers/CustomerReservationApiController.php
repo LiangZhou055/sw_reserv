@@ -7,6 +7,8 @@ use App\Services\ReservationLimitService;
 use App\Services\StoreContext;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CustomerReservationApiController extends Controller
 {
@@ -15,6 +17,28 @@ class CustomerReservationApiController extends Controller
     public function __construct(ReservationLimitService $limitService)
     {
         $this->limitService = $limitService;
+    }
+
+    public function stores()
+    {
+        $nameColumn = Schema::connection('central')->hasColumn('stores', 'name') ? 'name' : 'rest_name';
+        $rows = DB::connection('central')
+            ->table('stores')
+            ->where('is_active', 1)
+            ->whereNotNull('code')
+            ->whereNotNull($nameColumn)
+            ->orderBy($nameColumn)
+            ->get([$nameColumn.' as display_name', 'code']);
+
+        return response()->json([
+            'ok' => true,
+            'stores' => $rows->map(static function ($row) {
+                return [
+                    'name' => (string) $row->display_name,
+                    'storeCode' => (string) $row->code,
+                ];
+            })->values(),
+        ]);
     }
 
     public function store(Request $request, string $storeCode)

@@ -41,6 +41,7 @@ class AdminStoreController extends Controller
         $hasApiKeyEnabled = Schema::connection('central')->hasColumn('stores', 'api_key_enabled');
         $hasApiKeyRotatedAt = Schema::connection('central')->hasColumn('stores', 'api_key_rotated_at');
         $hasApiKeyLast4 = Schema::connection('central')->hasColumn('stores', 'api_key_last4');
+        $hasDataApiKey = Schema::connection('central')->hasColumn('stores', 'data_api_key');
         $hasSmsTplWelcome = Schema::connection('central')->hasColumn('stores', 'sms_tpl_welcome');
         $hasSmsTplNotice = Schema::connection('central')->hasColumn('stores', 'sms_tpl_notice');
         $hasSmsTplConfirm = Schema::connection('central')->hasColumn('stores', 'sms_tpl_confirm');
@@ -94,6 +95,7 @@ class AdminStoreController extends Controller
             'hasApiKeyHash' => $hasApiKeyHash,
             'hasApiKeyEnabled' => $hasApiKeyEnabled,
             'hasApiKeyRotatedAt' => $hasApiKeyRotatedAt,
+            'hasDataApiKey' => $hasDataApiKey,
             'hasSmsTplWelcome' => $hasSmsTplWelcome,
             'hasSmsTplNotice' => $hasSmsTplNotice,
             'hasSmsTplConfirm' => $hasSmsTplConfirm,
@@ -279,6 +281,56 @@ class AdminStoreController extends Controller
                 'end_date' => $request->query('end_date'),
             ])
             ->with('status', 'SMS templates updated.');
+    }
+
+    public function updateDataApiKey(Request $request, string $code)
+    {
+        $store = DB::connection('central')
+            ->table('stores')
+            ->whereRaw('LOWER(code) = ?', [strtolower($code)])
+            ->first();
+
+        if (! $store) {
+            abort(404, 'Store not found');
+        }
+
+        $hasDataApiKey = Schema::connection('central')->hasColumn('stores', 'data_api_key');
+        if (! $hasDataApiKey) {
+            return redirect()
+                ->route('admin.stores.show', [
+                    'code' => $store->code,
+                    'start_date' => $request->query('start_date'),
+                    'end_date' => $request->query('end_date'),
+                ])
+                ->withErrors(['data_api_key' => "Missing column 'data_api_key' in central stores table. Please run DB update SQL first."]);
+        }
+
+        $request->validate([
+            'data_api_key' => ['nullable', 'string', 'min:16', 'max:128'],
+            'action' => ['nullable', 'in:generate'],
+        ]);
+
+        $plainKey = trim((string) $request->input('data_api_key', ''));
+        if ($request->input('action') === 'generate' && $plainKey === '') {
+            $plainKey = Str::lower($store->code) . '_data_' . Str::random(32);
+        }
+
+        if ($plainKey !== '') {
+            DB::connection('central')
+                ->table('stores')
+                ->where('id', $store->id)
+                ->update(['data_api_key' => $plainKey]);
+        }
+
+        return redirect()
+            ->route('admin.stores.show', [
+                'code' => $store->code,
+                'start_date' => $request->query('start_date'),
+                'end_date' => $request->query('end_date'),
+            ])
+            ->with('status', $request->input('action') === 'generate' && $plainKey !== ''
+                ? "Data API key generated: {$plainKey}"
+                : 'Data API key updated.');
     }
 
     public function reservations(Request $request, string $code)

@@ -37,6 +37,10 @@
          class="block rounded-lg px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('admin.stores.*') ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
         Stores
       </a>
+      <a href="{{ route('admin.reports.index') }}"
+         class="block rounded-lg px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('admin.reports.*') ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+        Reports
+      </a>
       <a href="{{ route('admin.users.index') }}"
          class="block rounded-lg px-3 py-2 text-sm font-semibold transition {{ request()->routeIs('admin.users.*') ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
         Users

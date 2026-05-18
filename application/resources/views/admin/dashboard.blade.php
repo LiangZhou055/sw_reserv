@@ -14,7 +14,13 @@
   </div>
 </div>
 
-<div class="mt-4 grid gap-4 md:grid-cols-3">
+<div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+  <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <p class="text-xs uppercase tracking-wide text-slate-400">Reports</p>
+    <h4 class="mt-2 text-lg font-bold text-slate-900">SMS & reservations</h4>
+    <p class="mt-2 text-sm text-slate-500">Compare stores or drill into SMS usage and booking stats.</p>
+    <a href="{{ route('admin.reports.index') }}" class="mt-4 inline-flex rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-700 transition">Open Reports</a>
+  </div>
   <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
     <p class="text-xs uppercase tracking-wide text-slate-400">Stores</p>
     <h4 class="mt-2 text-lg font-bold text-slate-900">Manage all stores</h4>

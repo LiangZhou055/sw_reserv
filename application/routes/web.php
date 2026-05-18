@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\DataApiController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\FullCalenderController;
 use App\Http\Controllers\MemoController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\StoreAuthController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminStoreController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +43,7 @@ use App\Http\Controllers\AdminUserController;
 Route::get('/api/{storeCode}/{apiKey}',  [APIController::class, 'listByStore'])->name('dynamic.api.store');
 Route::get('/api/{sn}',  [APIController::class, 'list'])->name('dynamic.api');
 Route::post('registration/verify', [APIController::class, 'verify'])->name('registration.verify');
+Route::get('/data/{storeCode}/{apiKey}', [DataApiController::class, 'index'])->name('data.api');
 
 // Super admin (core-level) login
 Route::prefix('admin')->group(function () {
@@ -50,9 +53,11 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth:store', 'super.admin'])->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
         Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/reports', [AdminReportController::class, 'index'])->name('admin.reports.index');
         Route::get('/stores', [AdminStoreController::class, 'index'])->name('admin.stores.index');
         Route::get('/stores/{code}', [AdminStoreController::class, 'show'])->name('admin.stores.show');
         Route::post('/stores/{code}/api-key', [AdminStoreController::class, 'updateApiKey'])->name('admin.stores.api_key.update');
+        Route::post('/stores/{code}/data-api-key', [AdminStoreController::class, 'updateDataApiKey'])->name('admin.stores.data_api_key.update');
         Route::post('/stores/{code}/sms-templates', [AdminStoreController::class, 'updateSmsTemplates'])->name('admin.stores.sms_templates.update');
         Route::post('/stores/{code}/purge', [AdminStoreController::class, 'purge'])->name('admin.stores.purge');
         Route::get('/stores/{code}/reservations', [AdminStoreController::class, 'reservations'])->name('admin.stores.reservations.index');
